@@ -493,7 +493,7 @@
                          </property>
                         </widget>
                        </item>
-                 
+
                        <item row="4" column="0">
                         <widget class="QLabel" name="labelTotalText">
                          <property name="toolTip">
@@ -671,7 +671,7 @@
                           </font>
                          </property>
                          <property name="text">
-                          <string notr="true">&lt;a href=&quot;https://nort.network/&quot;&gt;https://nort.network/&lt;/a&gt;</string>
+                          <string notr="true">&lt;a href=&quot;https://nortcrypto.com/&quot;&gt;https://nortcrypto.com/&lt;/a&gt;</string>
                          </property>
                          <property name="textFormat">
                           <enum>Qt::RichText</enum>
@@ -700,7 +700,7 @@
                           </font>
                          </property>
                          <property name="text">
-                          <string notr="true">&lt;a href=&quot;https://discordapp.com/invite/9nzt37V/&quot;&gt;https://discordapp.com/invite/9nzt37V/&lt;/a&gt;</string>
+                          <string notr="true">&lt;a href=&quot;https://discord.gg/X7NHTyh&quot;&gt;https://discord.gg/X7NHTyh&lt;/a&gt;</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -726,7 +726,7 @@
                           </font>
                          </property>
                          <property name="text">
-                          <string notr="true">&lt;a href=&quot;https://github.com/zabtc/Northern/&quot;&gt;https://github.com/zabtc/Northern/&lt;/a&gt;</string>
+                          <string notr="true">&lt;a href=&quot;https://github.com/northern-community&quot;&gt;https://github.com/northern-community&lt;/a&gt;</string>
                          </property>
                          <property name="alignment">
                            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -752,7 +752,7 @@
                           </font>
                          </property>
                          <property name="text">
-                          <string notr="true">&lt;a href=&quot;http://104.238.138.11:3001/&quot;&gt;http://104.238.138.11:3001/&lt;/a&gt;</string>
+                          <string notr="true">&lt;a href=&quot;http://155.138.211.132:3001/ &quot;&gt;http://155.138.211.132:3001/ &lt;/a&gt;</string>
                          </property>
                          <property name="alignment">
                            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -817,7 +817,7 @@
                           </font>
                          </property>
                          <property name="text">
-                          <string notr="true">&lt;a href=&quot;cryptonorthern@gmail.com&quot;&gt;cryptonorthern@gmail.com&lt;/a&gt;</string>
+                          <string notr="true">&lt;a href=&quot;northerncommunity1@gmail.com&quot;&gt;northerncommunity1@gmail.com&lt;/a&gt;</string>
                          </property>
                          <property name="alignment">
                            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -1025,4 +1025,3 @@
  <resources/>
  <connections/>
 </ui>
-

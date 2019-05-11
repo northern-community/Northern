@@ -1838,7 +1838,7 @@ bool CScriptCheck::operator()()
 
 bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsViewCache& inputs, bool fScriptChecks, unsigned int flags, bool cacheStore, std::vector<CScriptCheck>* pvChecks)
 {
-    
+
 	CBlockIndex* pindexPrev = mapBlockIndex.find(inputs.GetBestBlock())->second;
 	if (!tx.IsCoinBase() && pindexPrev->nHeight >= 270000) {
         if (pvChecks)
@@ -1881,7 +1881,7 @@ bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsVi
                                           tx.GetHash().ToString(), FormatMoney(nValueIn), FormatMoney(tx.GetValueOut())),
                      REJECT_INVALID, "bad-txns-in-belowout");
 
-             
+
             CAmount nTxFee = nValueIn - tx.GetValueOut();
             if (nTxFee < 0 && pindexPrev->nHeight >= 270000)
                 return state.DoS(100, error("CheckInputs() : %s nTxFee < 0", tx.GetHash().ToString()),
@@ -3448,7 +3448,7 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
                 if (it == mapStakeSpent.end()) {
                     return false;
                 }
-                if (it->second <= pindexPrev->nHeight) {
+                if (it->second < pindexPrev->nHeight) {
                     return false;
                 }
             }
@@ -3483,7 +3483,7 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
                 }
 
                 // go to the parent block
-                last = pindexPrev->pprev;
+                last = last->pprev;
             }
         }
     }
