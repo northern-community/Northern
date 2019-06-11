@@ -9,6 +9,7 @@
 #include "masternodelist.h"
 
 #include <QStackedWidget>
+#include <QPixmap>
 
 class BitcoinGUI;
 class ClientModel;
