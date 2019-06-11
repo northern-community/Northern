@@ -88,6 +88,8 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
                                                                             multisigSignAction(0),
                                                                             aboutAction(0),
                                                                             receiveCoinsAction(0),
+                                                                            governanceAction(0),
+                                                                            privacyAction(0),
                                                                             optionsAction(0),
                                                                             toggleHideAction(0),
                                                                             encryptWalletAction(0),
@@ -175,12 +177,12 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
     QHBoxLayout* frameBlocksLayout = new QHBoxLayout(frameBlocks);
     frameBlocksLayout->setContentsMargins(3, 0, 3, 0);
     frameBlocksLayout->setSpacing(3);
-    
+
 #ifdef ENABLE_WALLET
     if (enableWallet) {
-        
+
     }
-#endif 
+#endif
 
     connect(openInfoAction, SIGNAL(triggered()), rpcConsole, SLOT(showInfo()));
     connect(openRPCConsoleAction, SIGNAL(triggered()), rpcConsole, SLOT(showConsole()));
@@ -299,6 +301,8 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
 
     QPixmap historyIconInactive(":/icons/history");
     QPixmap historyIconActive(":icons/history");
+
+
     QIcon historyIcon(historyIconInactive);
 
     historyIcon.addPixmap(historyIconActive,QIcon::Selected,QIcon::On);
@@ -316,6 +320,17 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_4));
 #endif
     tabGroup->addAction(historyAction);
+
+        privacyAction = new QAction(QIcon(":/icons/privacy"), tr("&Privacy"), this);
+        privacyAction->setStatusTip(tr("Privacy Actions for zPIV"));
+        privacyAction->setToolTip(privacyAction->statusTip());
+        privacyAction->setCheckable(true);
+    #ifdef Q_OS_MAC
+        privacyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_5));
+    #else
+        privacyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
+    #endif
+        tabGroup->addAction(privacyAction);
 
 #ifdef ENABLE_WALLET
 
@@ -342,6 +357,37 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
         tabGroup->addAction(masternodeAction);
         connect(masternodeAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
         connect(masternodeAction, SIGNAL(triggered()), this, SLOT(gotoMasternodePage()));
+
+        #ifdef Q_OS_MAC
+            receiveCoinsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_3));
+        #else
+            receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
+        #endif
+            tabGroup->addAction(receiveCoinsAction);
+
+            QPixmap historyIconInactive(":/icons/history");
+            QPixmap historyIconActive(":icons/history");
+
+
+            QIcon historyIcon(historyIconInactive);
+
+            historyIcon.addPixmap(historyIconActive,QIcon::Selected,QIcon::On);
+            historyIcon.addPixmap(historyIconActive,QIcon::Selected,QIcon::Off);
+            historyIcon.addPixmap(historyIconActive,QIcon::Active,QIcon::On);
+            historyIcon.addPixmap(historyIconActive,QIcon::Active,QIcon::Off);
+
+            historyAction = new QAction(historyIcon, tr("&Transactions"), this);
+            historyAction->setStatusTip(tr("Browse transaction history"));
+            historyAction->setToolTip(historyAction->statusTip());
+            historyAction->setCheckable(true);
+        #ifdef Q_OS_MAC
+            historyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_4));
+        #else
+            historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_4));
+        #endif
+            tabGroup->addAction(historyAction);
+
+
     }
 
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
@@ -352,6 +398,8 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     connect(sendCoinsAction, SIGNAL(triggered()), this, SLOT(gotoSendCoinsPage()));
     connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(gotoReceiveCoinsPage()));
+    connect(privacyAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(privacyAction, SIGNAL(triggered()), this, SLOT(gotoPrivacyPage()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
 #endif // ENABLE_WALLET
@@ -541,7 +589,9 @@ void BitcoinGUI::createToolBars()
         toolbar->addAction(overviewAction);
         toolbar->addAction(sendCoinsAction);
         toolbar->addAction(receiveCoinsAction);
+        toolbar->addAction(privacyAction);
         toolbar->addAction(historyAction);
+        toolbar->addAction(privacyAction);
         QSettings settings;
         if (settings.value("fShowMasternodesTab").toBool()) {
             toolbar->addAction(masternodeAction);
@@ -713,6 +763,7 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
     overviewAction->setEnabled(enabled);
     sendCoinsAction->setEnabled(enabled);
     receiveCoinsAction->setEnabled(enabled);
+    privacyAction->setEnabled(enabled);
     historyAction->setEnabled(enabled);
     masternodeAction->setEnabled(enabled);
     QSettings settings;
@@ -770,6 +821,7 @@ void BitcoinGUI::createTrayIconMenu()
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(sendCoinsAction);
     trayIconMenu->addAction(receiveCoinsAction);
+    trayIconMenu->addAction(privacyAction);
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(signMessageAction);
     trayIconMenu->addAction(verifyMessageAction);
@@ -863,6 +915,12 @@ void BitcoinGUI::gotoReceiveCoinsPage()
 {
     receiveCoinsAction->setChecked(true);
     if (walletFrame) walletFrame->gotoReceiveCoinsPage();
+}
+
+void BitcoinGUI::gotoPrivacyPage()
+{
+    privacyAction->setChecked(true);
+    if (walletFrame) walletFrame->gotoPrivacyPage();
 }
 
 void BitcoinGUI::gotoSendCoinsPage(QString addr)
