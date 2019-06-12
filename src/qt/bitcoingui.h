@@ -207,10 +207,8 @@ private slots:
     void gotoBlockExplorerPage();
     /** Switch to masternode page */
     void gotoMasternodePage();
-        /** Switch to privacy page */
+    /** Switch to receive coins page */
     void gotoReceiveCoinsPage();
-        /** Switch to receive coins page */
-    void gotoPrivacyPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage(QString addr = "");
 
