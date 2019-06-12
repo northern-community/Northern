@@ -298,7 +298,6 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
 #endif
     tabGroup->addAction(receiveCoinsAction);
 
-    QPixmap historyIconInactive(":/icons/history");
     QPixmap historyIconActive(":icons/history");
 
 
@@ -386,10 +385,8 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
             historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_4));
         #endif
             tabGroup->addAction(historyAction);
-
-
     }
-
+  
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
     // can be triggered from the tray menu, and need to show the GUI to be useful.
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
