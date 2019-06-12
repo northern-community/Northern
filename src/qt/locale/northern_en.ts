@@ -2036,22 +2036,6 @@ Please be patient after clicking import.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-    <location line="+37"/>
-    <location filename="../privacydialog.cpp" line="+542"/>
-    <source>Spend Zerocoin. Without &apos;Pay To:&apos; address creates payments to yourself.</source>
-    <translation type="unfinished"></translation>
-</message>
-<message>
-    <location line="+3"/>
-    <location filename="../privacydialog.cpp" line="-493"/>
-    <location line="+4"/>
-    <location line="+12"/>
-    <location line="+106"/>
-    <location line="+4"/>
-    <source>Spend Zerocoin</source>
-    <translation type="unfinished"></translation>
-    </message>
-  <message>
         <location line="+7"/>
         <location line="+14"/>
         <source>0</source>
@@ -2525,26 +2509,11 @@ p, li { white-space: pre-wrap; }
         <source>Staked or masternode rewards that has not yet matured</source>
         <translation>Staked or masternode rewards that has not yet matured</translation>
     </message>
-</context>
-<context>
-    <name>PrivacyDialog</name>
-    <message>
-        <location filename="../forms/privacydialog.ui" line="+184"/>
-        <source>Zerocoin Actions:</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location line="-153"/>
         <location line="+1393"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Northern network after a connection is established, but this process has not completed yet.</source>
         <translation type="unfinished"></translation>
-  </message>
-  <message>
-      <location line="+190"/>
-      <location filename="../privacydialog.cpp" line="+163"/>
-      <location line="+112"/>
-      <source>Mint Zerocoin</source>
-      <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-1348"/>
