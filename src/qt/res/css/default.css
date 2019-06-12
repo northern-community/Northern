@@ -104,7 +104,7 @@ QProgressBar {
 	border-style: none;
 	font: 12px;
 	text-align: center;
-	
+
 }
 
 QProgressBar::chunk {
@@ -112,7 +112,7 @@ QProgressBar::chunk {
 	width: 12px;
 	font: 12px;
 	text-align: center;
-	
+
 }
 
 QLabel#progressBarLabel {
@@ -702,6 +702,59 @@ QWidget#AddressBookPage QHeaderView::section { /* Min width for Windows fix */
 
 /* QDialog#MultisigDialog QPushButton { */
 /* QDialog#MultisigDialog QFrame#addressFrame { */
+
+/**************************** Privacy Dialog ********************************************/
+
+
+QWidget#PrivacyDialog QFrame {
+background-color:transparent;
+border:0px solid #000;
+}
+
+QWidget#PrivacyDialog QFrame#labelMintStatus {
+background-color:#eee;
+border: 1px inset gray;
+}
+
+QWidget#PrivacyDialog QLabel {
+border:0px solid #000;
+}
+
+QWidget#PrivacyDialog QLabel#zPIVLabel {
+font-size:14px;
+color:#ffffff;
+background-color:#5c4c7c;
+}
+
+QWidget#PrivacyDialog QLabel#oPIVLabel {
+font-size:14px;
+color:#ffffff;
+background-color:#5c4c7c;
+}
+
+QWidget#PrivacyDialog QPushButton {
+font-size:12px;
+font-weight:normal;
+padding-left:5px;
+padding-right:5px;
+padding-top:1px;
+padding-bottom:1px;
+height: 26px;
+margin: 2px;
+}
+
+QWidget#PrivacyDialog QProgressBar#obfuscationProgress { /* Obfuscation Completion */
+border: 1px solid #818181;
+border-radius: 1px;
+margin-right:43px;
+text-align: right;
+color:#818181;
+}
+
+QWidget#PrivacyDialog QProgressBar#obfuscationProgress::chunk {
+background-color: #382f44;
+width:1px;
+}
 
 /**************************** SETTINGS MENU *********************************************/
 
@@ -1319,6 +1372,32 @@ QDialog#TransactionDescDialog QTextEdit { /* Contents of Receive Coin Dialog */
 	border:1px solid #d7d7d7;
 }
 
+/**************************** PRIVACY PAGE *****************************************/
+/* QDialog#PrivacyDialog */
+/* QWidget#PrivacyDialog */
+
+QWidget#PrivacyDialog .QFrame[frameShape="4"] { /* QFrame::HLine == 0x0004 */
+border:1px solid #372f44;
+}
+
+QWidget#PrivacyDialog .QFrame#frame_Content {
+background-color:#f8f6f6;
+}
+
+QWidget#PrivacyDialog .QFrame#verticalFrameLeft {
+background-color:#ffffff;
+}
+
+QWidget#PrivacyDialog .QFrame#verticalFrameRight {
+background-color:#ffffff;
+}
+
+QWidget#PrivacyDialog .QToolButton {
+margin:2px;
+min-height: 24px;
+min-width: 24px;
+}
+
 /**************************** MASTERNODE LIST *******************************************/
 
 QWidget#MasternodeList {
@@ -1352,4 +1431,3 @@ QCalendarWidget QAbstractItemView:enabled { /* Calendar widget weekdays in month
 QCalendarWidget QAbstractItemView:disabled { /* Calendar widget days not in month */
 	color:#818181;
 }
-
