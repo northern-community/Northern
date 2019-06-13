@@ -88,7 +88,6 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
                                                                             multisigSignAction(0),
                                                                             aboutAction(0),
                                                                             receiveCoinsAction(0),
-                                                                            governanceAction(0),
                                                                             optionsAction(0),
                                                                             toggleHideAction(0),
                                                                             encryptWalletAction(0),
@@ -176,12 +175,12 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
     QHBoxLayout* frameBlocksLayout = new QHBoxLayout(frameBlocks);
     frameBlocksLayout->setContentsMargins(3, 0, 3, 0);
     frameBlocksLayout->setSpacing(3);
-
+    
 #ifdef ENABLE_WALLET
     if (enableWallet) {
-
+        
     }
-#endif
+#endif 
 
     connect(openInfoAction, SIGNAL(triggered()), rpcConsole, SLOT(showInfo()));
     connect(openRPCConsoleAction, SIGNAL(triggered()), rpcConsole, SLOT(showConsole()));
@@ -298,9 +297,8 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
 #endif
     tabGroup->addAction(receiveCoinsAction);
 
+    QPixmap historyIconInactive(":/icons/history");
     QPixmap historyIconActive(":icons/history");
-
-
     QIcon historyIcon(historyIconInactive);
 
     historyIcon.addPixmap(historyIconActive,QIcon::Selected,QIcon::On);
@@ -344,49 +342,8 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
         tabGroup->addAction(masternodeAction);
         connect(masternodeAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
         connect(masternodeAction, SIGNAL(triggered()), this, SLOT(gotoMasternodePage()));
-      }
-
-    governanceAction = new QAction(QIcon(":/icons/governance"), tr("&Governance"), this);
-    governanceAction->setStatusTip(tr("Show Proposals"));
-    governanceAction->setToolTip(governanceAction->statusTip());
-    governanceAction->setCheckable(true);
-#ifdef Q_OS_MAC
-    governanceAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_7));
-#else
-    governanceAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
-#endif
-    tabGroup->addAction(governanceAction);
-
-        #ifdef Q_OS_MAC
-            receiveCoinsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_3));
-        #else
-            receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
-        #endif
-            tabGroup->addAction(receiveCoinsAction);
-
-            QPixmap historyIconInactive(":/icons/history");
-            QPixmap historyIconActive(":icons/history");
-
-
-            QIcon historyIcon(historyIconInactive);
-
-            historyIcon.addPixmap(historyIconActive,QIcon::Selected,QIcon::On);
-            historyIcon.addPixmap(historyIconActive,QIcon::Selected,QIcon::Off);
-            historyIcon.addPixmap(historyIconActive,QIcon::Active,QIcon::On);
-            historyIcon.addPixmap(historyIconActive,QIcon::Active,QIcon::Off);
-
-            historyAction = new QAction(historyIcon, tr("&Transactions"), this);
-            historyAction->setStatusTip(tr("Browse transaction history"));
-            historyAction->setToolTip(historyAction->statusTip());
-            historyAction->setCheckable(true);
-        #ifdef Q_OS_MAC
-            historyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_4));
-        #else
-            historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_4));
-        #endif
-            tabGroup->addAction(historyAction);
     }
-  
+
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
     // can be triggered from the tray menu, and need to show the GUI to be useful.
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -397,7 +354,6 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(gotoReceiveCoinsPage()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
-    connect(governanceAction, SIGNAL(triggered()), this, SLOT(gotoGovernancePage()));
 #endif // ENABLE_WALLET
 
     quitAction = new QAction(QIcon(":/icons/quit"), tr("E&xit"), this);
@@ -586,11 +542,10 @@ void BitcoinGUI::createToolBars()
         toolbar->addAction(sendCoinsAction);
         toolbar->addAction(receiveCoinsAction);
         toolbar->addAction(historyAction);
-      QSettings settings;
+        QSettings settings;
         if (settings.value("fShowMasternodesTab").toBool()) {
             toolbar->addAction(masternodeAction);
         }
-        toolbar->addAction(governanceAction);
         toolbar->setOrientation(Qt::Vertical);
         toolbar->setMovable(false); // remove unused icon in upper left corner
         toolbar->setFloatable(false);
@@ -902,11 +857,6 @@ void BitcoinGUI::gotoMasternodePage()
         masternodeAction->setChecked(true);
         if (walletFrame) walletFrame->gotoMasternodePage();
     }
-}
-void BitcoinGUI::gotoGovernancePage()
-{
-    governanceAction->setChecked(true);
-    if (walletFrame) walletFrame->gotoGovernancePage();
 }
 
 void BitcoinGUI::gotoReceiveCoinsPage()
