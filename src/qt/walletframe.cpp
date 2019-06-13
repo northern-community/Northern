@@ -11,7 +11,6 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QPixmap>
 
 WalletFrame::WalletFrame(BitcoinGUI* _gui) : QFrame(_gui),
                                              gui(_gui)
@@ -42,7 +41,7 @@ bool WalletFrame::addWallet(const QString& name, WalletModel* walletModel)
     if (!gui || !clientModel || !walletModel || mapWalletViews.count(name) > 0)
         return false;
 
-    WalletView* walletView = new WalletView(walletStack);
+    WalletView* walletView = new WalletView(this);
     walletView->setBitcoinGUI(gui);
     walletView->setClientModel(clientModel);
     walletView->setWalletModel(walletModel);
@@ -117,13 +116,6 @@ void WalletFrame::gotoHistoryPage()
     QMap<QString, WalletView*>::const_iterator i;
     for (i = mapWalletViews.constBegin(); i != mapWalletViews.constEnd(); ++i)
         i.value()->gotoHistoryPage();
-}
-
-void WalletFrame::gotoGovernancePage()
-{
-    QMap<QString, WalletView*>::const_iterator i;
-    for (i = mapWalletViews.constBegin(); i != mapWalletViews.constEnd(); ++i)
-        i.value()->gotoGovernancePage();
 }
 
 void WalletFrame::gotoMasternodePage() // Masternode list

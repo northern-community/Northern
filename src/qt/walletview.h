@@ -9,13 +9,11 @@
 #include "masternodelist.h"
 
 #include <QStackedWidget>
-#include <QPixmap>
 
 class BitcoinGUI;
 class ClientModel;
 class OverviewPage;
 class ReceiveCoinsDialog;
-class GovernancePage;
 class SendCoinsDialog;
 class SendCoinsRecipient;
 class TransactionView;
@@ -64,7 +62,6 @@ private:
     OverviewPage* overviewPage;
     QWidget* transactionsPage;
     ReceiveCoinsDialog* receiveCoinsPage;
-    GovernancePage* governancePage;
     SendCoinsDialog* sendCoinsPage;
     BlockExplorer* explorerWindow;
     MasternodeList* masternodeListPage;
@@ -83,8 +80,6 @@ public slots:
     void gotoMasternodePage();
     /** Switch to explorer page */
     void gotoBlockExplorerPage();
-    /** Switch to governance page */
-    void gotoGovernancePage();
     /** Switch to receive coins page */
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */

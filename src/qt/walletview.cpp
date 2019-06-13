@@ -10,7 +10,6 @@
 #include "bitcoingui.h"
 #include "blockexplorer.h"
 #include "clientmodel.h"
-#include "governancepage.h"
 #include "guiutil.h"
 #include "masternodeconfig.h"
 #include "multisenddialog.h"
@@ -35,7 +34,6 @@
 #include <QPushButton>
 #include <QSettings>
 #include <QVBoxLayout>
-#include <QPixmap>
 
 WalletView::WalletView(QWidget* parent) : QStackedWidget(parent),
                                           clientModel(0),
@@ -116,13 +114,11 @@ WalletView::WalletView(QWidget* parent) : QStackedWidget(parent),
     vbox->addLayout(hbox_buttons);
     transactionsPage->setLayout(vbox);
 
-    governancePage = new GovernancePage();
     receiveCoinsPage = new ReceiveCoinsDialog();
     sendCoinsPage = new SendCoinsDialog();
 
     addWidget(overviewPage);
     addWidget(transactionsPage);
-    addWidget(governancePage);
     addWidget(receiveCoinsPage);
     addWidget(sendCoinsPage);
     addWidget(explorerWindow);
@@ -183,7 +179,6 @@ void WalletView::setClientModel(ClientModel* clientModel)
     if (settings.value("fShowMasternodesTab").toBool()) {
         masternodeListPage->setClientModel(clientModel);
     }
-    governancePage->setClientModel(clientModel);
 }
 
 void WalletView::setWalletModel(WalletModel* walletModel)
@@ -199,7 +194,6 @@ void WalletView::setWalletModel(WalletModel* walletModel)
     }
     receiveCoinsPage->setModel(walletModel);
     sendCoinsPage->setModel(walletModel);
-    governancePage->setWalletModel(walletModel);
 
     if (walletModel) {
         // Receive and pass through messages from wallet model
@@ -251,10 +245,6 @@ void WalletView::gotoHistoryPage()
     setCurrentWidget(transactionsPage);
 }
 
-void WalletView::gotoGovernancePage()
-{
-    setCurrentWidget(governancePage);
-}
 
 void WalletView::gotoBlockExplorerPage()
 {
