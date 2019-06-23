@@ -41,6 +41,6 @@ Furthermore, as result of offering multiple ways for users to mint new NORT coin
 
 #
 
-### More information at [https://nort.network](https://nort.network)
+### More information at [https://nortcrypto.com](https://nortcrypto.com)
 ### Join our [Discord!](https://discord.gg/9nzt37V)
 
