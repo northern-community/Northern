@@ -9,7 +9,7 @@ performance improvements, as well as updated translations.
 
 Please report bugs using the issue tracker at github:
 
-  <https://github.com/northern-community/Northern/releases/issues>
+  <https://github.com/issues>
 
 Mandatory Update
 ==============
