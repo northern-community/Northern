@@ -55,8 +55,9 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
     (280000, uint256("0xacc7cab3ce4994046a48acd9221cfbff828920ef3a3c0060d6262a9589f8b4ad"))
     (310000, uint256("0xa20cac78de0bde0a4bc72191b204e8e686e47508f7fcf9c84f327cd38578a7cb"))
     (330000, uint256("0x94081243f2c9c8c27488f5b89c249de0dd88aa1a1fe436a42dc698e886723e5d"))
-    (758000, unit256("0xc4f288c20bedaf6738d18097b4e656791c76e67402de7b44093d8fc0209547c2"));
-	
+    (758000, unit256("0xc4f288c20bedaf6738d18097b4e656791c76e67402de7b44093d8fc0209547c2"))
+    (822270, unit256("0xacf4b4a270569d08ae889cae2ab4fafa68d5fb240a9fe030a2aa0978d9fdebb7"));
+
 
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
@@ -103,7 +104,7 @@ public:
         nRejectBlockOutdatedMajority = 950;
         nToCheckBlockUpgradeMajority = 1000;
         nMinerThreads = 0;
-        nTargetTimespan = 2 * 60; 
+        nTargetTimespan = 2 * 60;
         nTargetSpacing = 2 * 60;  // Northern: 2 minute blocks during POW (block 1-200)
         nMaturity = 5; // 6 block maturity (+1 elsewhere)
         nMasternodeCountDrift = 20;
@@ -158,7 +159,7 @@ public:
         nPoolMaxTransactions = 3;
         strSporkKey = "04cc17389379a0e323f53ea504d38cd71f43dc22f597805fed33a51b05ced1a3ae0db84089985f351b3737721736a82f58c8bd529f79c8ffe57e922bda792146ab";
         strMasternodePoolDummyAddress = "NSJVWUkt6HtSCY2SaJ2akeyJUg8bg1hW3S";
-        nStartMasternodePayments = 4070908800; 
+        nStartMasternodePayments = 4070908800;
 
         nBudget_Fee_Confirmations = 6; // Number of confirmations for the finalization fee
     }
