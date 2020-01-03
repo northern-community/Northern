@@ -16,6 +16,15 @@
     <height>682</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Arial Black</family>
+    <pointsize>9</pointsize>
+    <weight>75</weight>
+    <italic>false</italic>
+    <bold>true</bold>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
