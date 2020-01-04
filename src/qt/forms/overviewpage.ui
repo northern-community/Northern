@@ -1123,14 +1123,15 @@
                       <property name="font">
                        <font>
                         <family>Arial Black</family>
-                        <pointsize>10</pointsize>
+                        <pointsize>11</pointsize>
                         <weight>10</weight>
                         <italic>false</italic>
                         <bold>false</bold>
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+                       <string notr="true">font: 87 11pt &quot;Arial Black&quot;;
+selection-color: rgb(0, 0, 0);</string>
                       </property>
                       <property name="text">
                        <string>Recent transactions</string>
