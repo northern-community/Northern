@@ -22,7 +22,7 @@ packages:
 - "ca-certificates"
 - "python"
 remotes:
-- "url": "https://github.com/northern/northern.git"
+- "url": "https://github.com/northern-community/Northern.git"
   "dir": "northern"
 files: []
 script: |
