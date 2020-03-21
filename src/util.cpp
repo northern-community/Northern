@@ -129,7 +129,7 @@ bool fServer = false;
 string strMiscWarning;
 bool fLogTimestamps = false;
 bool fLogIPs = false;
-volatile bool fReopenDebugLog = false;
+volatile bool fReopenDebugLog = true;
 
 /** Init OpenSSL library multithreading support */
 static CCriticalSection** ppmutexOpenSSL;
