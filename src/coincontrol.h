@@ -34,7 +34,7 @@ public:
     {
         destChange = CNoDestination();
         setSelected.clear();
-        useSwiftTX = false;
+        useSwiftTX = true;
         fAllowOtherInputs = false;
         fAllowWatchOnly = false;
         nMinimumTotalFee = 0;

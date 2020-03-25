@@ -121,7 +121,7 @@ string strBudgetMode = "";
 
 map<string, string> mapArgs;
 map<string, vector<string> > mapMultiArgs;
-bool fDebug = true;
+bool fDebug = false;
 bool fPrintToConsole = false;
 bool fPrintToDebugLog = true;
 bool fDaemon = false;
@@ -129,7 +129,7 @@ bool fServer = false;
 string strMiscWarning;
 bool fLogTimestamps = false;
 bool fLogIPs = false;
-volatile bool fReopenDebugLog = true;
+volatile bool fReopenDebugLog = false;
 
 /** Init OpenSSL library multithreading support */
 static CCriticalSection** ppmutexOpenSSL;
