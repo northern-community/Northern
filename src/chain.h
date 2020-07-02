@@ -8,7 +8,6 @@
 #define BITCOIN_CHAIN_H
 
 #include "pow.h"
-#include "consensus/params.h"
 #include "primitives/block.h"
 #include "tinyformat.h"
 #include "uint256.h"
@@ -16,21 +15,8 @@
 
 #include <vector>
 
+#include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
-
-/**
- * Maximum amount of time that a block timestamp is allowed to exceed the
- * current network-adjusted time before the block will be accepted.
- */
-static const int64_t MAX_FUTURE_BLOCK_TIME = 2 * 60 * 60;
-
-/**
- * Timestamp window used as a grace period by code that compares external
- * timestamps (such as timestamps passed to RPCs, or wallet key creation times)
- * to block timestamps. This should be set at least as high as
- * MAX_FUTURE_BLOCK_TIME.
- */
-static const int64_t TIMESTAMP_WINDOW = MAX_FUTURE_BLOCK_TIME;
 
 struct CDiskBlockPos {
     int nFile;
@@ -74,7 +60,7 @@ struct CDiskBlockPos {
     bool IsNull() const { return (nFile == -1); }
 };
 
-enum BlockStatus: uint32_t {
+enum BlockStatus {
     //! Unused.
     BLOCK_VALID_UNKNOWN = 0,
 
@@ -111,8 +97,6 @@ enum BlockStatus: uint32_t {
     BLOCK_FAILED_VALID = 32, //! stage after last reached validness failed
     BLOCK_FAILED_CHILD = 64, //! descends from failed block
     BLOCK_FAILED_MASK = BLOCK_FAILED_VALID | BLOCK_FAILED_CHILD,
-
-    BLOCK_OPT_WITNESS = 128, //!< block data in blk*.data was received with a witness-enforcing client
 };
 
 /** The block chain is a tree shaped structure starting with the
@@ -188,15 +172,9 @@ public:
     unsigned int nTime;
     unsigned int nBits;
     unsigned int nNonce;
-    uint256 hashStateRoot;
-    uint256 hashUTXORoot;
 
     //! (memory only) Sequential id assigned to distinguish order in which blocks are received.
     uint32_t nSequenceId;
-
-    //! (memory only) Maximum nTime in the chain up to and including this block.
-    unsigned int nTimeMax;
-
 
     void SetNull()
     {
@@ -212,7 +190,6 @@ public:
         nChainTx = 0;
         nStatus = 0;
         nSequenceId = 0;
-        nTimeMax = 0;
 
         nMint = 0;
         nMoneySupply = 0;
@@ -223,12 +200,10 @@ public:
         nStakeTime = 0;
 
         nVersion = 0;
-        hashMerkleRoot = 0;
+        hashMerkleRoot = uint256();
         nTime = 0;
         nBits = 0;
         nNonce = 0;
-        hashStateRoot  = uint256();
-        hashUTXORoot   = uint256();
     }
 
     CBlockIndex()
@@ -245,17 +220,15 @@ public:
         nTime = block.nTime;
         nBits = block.nBits;
         nNonce = block.nNonce;
-        hashStateRoot  = block.hashStateRoot;
-        hashUTXORoot   = block.hashUTXORoot;
 
         //Proof of Stake
-        bnChainTrust = 0;
+        bnChainTrust = uint256();
         nMint = 0;
         nMoneySupply = 0;
         nFlags = 0;
         nStakeModifier = 0;
         nStakeModifierChecksum = 0;
-        hashProofOfStake = 0;
+        hashProofOfStake = uint256();
 
         if (block.IsProofOfStake()) {
             SetProofOfStake();
@@ -297,8 +270,6 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
-        block.hashStateRoot  = hashStateRoot;
-        block.hashUTXORoot   = hashUTXORoot;
         return block;
     }
 
@@ -311,12 +282,6 @@ public:
     {
         return (int64_t)nTime;
     }
-
-    int64_t GetBlockTimeMax() const
-    {
-        return (int64_t)nTimeMax;
-    }
-
 
     enum { nMedianTimeSpan = 11 };
 
@@ -351,7 +316,11 @@ public:
 
     unsigned int GetStakeEntropyBit() const
     {
-        return ((GetBlockHash().Get64()) & 1llu);
+        unsigned int nEntropyBit = ((GetBlockHash().Get64()) & 1);
+        if (fDebug || GetBoolArg("-printstakemodifier", false))
+            LogPrintf("GetStakeEntropyBit: nHeight=%u hashBlock=%s nEntropyBit=%u\n", nHeight, GetBlockHash().ToString().c_str(), nEntropyBit);
+
+        return nEntropyBit;
     }
 
     bool SetStakeEntropyBit(unsigned int nEntropyBit)
@@ -376,10 +345,10 @@ public:
 
     /**
      * Returns true if there are nRequired or more blocks of minVersion or above
-     * in the last Params().ToCheckBlockUpgradeMajority() blocks, starting at pstart
+     * in the last Params().ToCheckBlockUpgradeMajority() blocks, starting at pstart 
      * and going backwards.
      */
-    static bool IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned int nRequired, const Consensus::Params&);
+    static bool IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned int nRequired);
 
     std::string ToString() const
     {
@@ -429,22 +398,22 @@ public:
 
     CDiskBlockIndex()
     {
-        hashPrev = 0;
-        hashNext = 0;
+        hashPrev = uint256();
+        hashNext = uint256();
     }
 
-    explicit CDiskBlockIndex(const CBlockIndex* pindex) : CBlockIndex(*pindex)
+    explicit CDiskBlockIndex(CBlockIndex* pindex) : CBlockIndex(*pindex)
     {
-        hashPrev = (pprev ? pprev->GetBlockHash() : 0);
+        hashPrev = (pprev ? pprev->GetBlockHash() : uint256());
     }
 
     ADD_SERIALIZE_METHODS;
 
     template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int _nVersion)
+    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion)
     {
         if (!(nType & SER_GETHASH))
-            READWRITE(VARINT(_nVersion));
+            READWRITE(VARINT(nVersion));
 
         READWRITE(VARINT(nHeight));
         READWRITE(VARINT(nStatus));
@@ -464,11 +433,10 @@ public:
         if (IsProofOfStake()) {
             READWRITE(prevoutStake);
             READWRITE(nStakeTime);
-            READWRITE(hashProofOfStake);
         } else {
             const_cast<CDiskBlockIndex*>(this)->prevoutStake.SetNull();
             const_cast<CDiskBlockIndex*>(this)->nStakeTime = 0;
-            const_cast<CDiskBlockIndex*>(this)->hashProofOfStake = 0;
+            const_cast<CDiskBlockIndex*>(this)->hashProofOfStake = uint256();
         }
 
         // block header
@@ -479,14 +447,6 @@ public:
         READWRITE(nTime);
         READWRITE(nBits);
         READWRITE(nNonce);
-        //Temporary workaround for cyclic dependency, when including versionbits.
-        //The dependency cycle is block <- versionbits <- chain <- block.
-        //When it is fixed, this check should look like this
-        //if(this->nVersion & VersionBitsMask(Params().GetConsensus(), Consensus::SMART_CONTRACTS_HARDFORK))
-        if ((this->nVersion & (1 << 30)) != 0) {
-            READWRITE(hashStateRoot);
-            READWRITE(hashUTXORoot);
-        }
     }
 
     uint256 GetBlockHash() const
@@ -498,10 +458,9 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
-        block.hashStateRoot   = hashStateRoot;
-        block.hashUTXORoot    = hashUTXORoot; 
-        return block.GetHash(nHeight >= Params().SwitchPhi2Block());
+        return block.GetHash();
     }
+
 
     std::string ToString() const
     {
@@ -586,9 +545,6 @@ public:
 
     /** Find the last common block between this chain and a block index entry. */
     const CBlockIndex* FindFork(const CBlockIndex* pindex) const;
-
-     /** Find the earliest block with timestamp equal or greater than the given. */
-    CBlockIndex* FindEarliestAtLeast(int64_t nTime) const;
 };
 
 #endif // BITCOIN_CHAIN_H
